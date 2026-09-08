@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SERVER 288 — MIGRATION REGISTRATION</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app-shell">
+
+  <div class="top-bar">
+    <div class="brand">
+      <span class="brand-mark">288</span>
+      <div>
+        <div class="brand-title" id="brandTitle">SERVER 288 — MIGRATION REGISTRATION</div>
+        <div class="brand-tagline" id="brandTagline">Register your migration to Server 288</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <nav class="nav-links"><a href="admin.html" id="navAdmin">Admin</a></nav>
+      <select class="lang-select" id="langSelect" aria-label="Language"></select>
+    </div>
+  </div>
+
+  <div id="banner"></div>
+
+  <!-- Stepper -->
+  <div class="stepper" id="stepper">
+    <div class="step-dot" data-step="1"></div>
+    <div class="step-dot" data-step="2"></div>
+    <div class="step-dot" data-step="3"></div>
+    <div class="step-dot" data-step="4"></div>
+  </div>
+  <div class="step-label" id="stepLabel"></div>
+
+  <!-- ===================== STEP 1 ===================== -->
+  <section class="panel step-panel" id="panel1">
+    <h2 class="panel-title" id="s1Title">Player &amp; Migration Information</h2>
+
+    <div class="field">
+      <label class="field-label" id="lblSourceServer"><span class="tag tag-required" id="tagReq1">Required</span> Source Server ID</label>
+      <div class="combo-wrap">
+        <input type="text" id="sourceServer" autocomplete="off" />
+        <div class="combo-list" id="sourceServerList"></div>
+      </div>
+      <div class="field-error" id="err_sourceServer"></div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" id="lblAlliance"><span class="tag tag-required">Required</span> Alliance Name</label>
+      <input type="text" id="allianceName" />
+      <div class="field-error" id="err_allianceName"></div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" id="lblPlayerName"><span class="tag tag-required">Required</span> Player Name</label>
+      <input type="text" id="playerName" />
+      <div class="field-error" id="err_playerName"></div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" id="lblMigrationId"><span class="tag tag-required">Required</span> Migration ID</label>
+      <input type="text" id="migrationId" />
+      <div class="field-error" id="err_migrationId"></div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" id="lblScore"><span class="tag tag-required">Required</span> Migration Score</label>
+      <input type="text" id="migrationScore" inputmode="numeric" placeholder="325,000,000" />
+      <div class="field-error" id="err_migrationScore"></div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" id="lblType"><span class="tag tag-required">Required</span> Migration Type</label>
+      <div class="choice-group" id="migrationTypeGroup">
+        <button type="button" class="choice-btn" data-value="Individual" id="choiceIndividual">Individual</button>
+        <button type="button" class="choice-btn" data-value="Group" id="choiceGroup">Group</button>
+      </div>
+      <div class="field-error" id="err_migrationType"></div>
+    </div>
+
+    <div class="field" id="groupSizeField" style="display:none;">
+      <label class="field-label" id="lblGroupSize"><span class="tag tag-required">Required</span> Group Size</label>
+      <input type="number" id="groupSize" min="2" step="1" />
+      <div class="field-error" id="err_groupSize"></div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" id="lblTargetAlliance"><span class="tag tag-required">Required</span> Target Alliance (Server 288)</label>
+      <div class="choice-group" id="targetAllianceGroup">
+        <button type="button" class="choice-btn" data-value="DWSS">DWSS</button>
+        <button type="button" class="choice-btn" data-value="NMC">NMC</button>
+        <button type="button" class="choice-btn" data-value="M4D">M4D</button>
+        <button type="button" class="choice-btn" data-value="Not decided" id="choiceNotDecided">Not decided</button>
+      </div>
+      <div class="field-error" id="err_targetAlliance"></div>
+    </div>
+
+    <div class="btn-row">
+      <span></span>
+      <button type="button" class="btn btn-primary" id="toStep2">Next</button>
+    </div>
+  </section>
+
+  <!-- ===================== STEP 2 ===================== -->
+  <section class="panel step-panel" id="panel2" style="display:none;">
+    <h2 class="panel-title" id="s2Title">APC Information</h2>
+
+    <div id="apcContainer"></div>
+
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" id="toStep1Back">Back</button>
+      <button type="button" class="btn btn-primary" id="toStep3">Next</button>
+    </div>
+  </section>
+
+  <!-- ===================== STEP 3 ===================== -->
+  <section class="panel step-panel" id="panel3" style="display:none;">
+    <h2 class="panel-title" id="s3Title">Event Availability</h2>
+
+    <div class="field">
+      <label class="field-label" id="lblSeason"><span class="tag tag-required">Required</span> Season Event Availability</label>
+      <div class="choice-group" id="seasonGroup">
+        <button type="button" class="choice-btn" data-value="Yes" id="seasonYes">Yes</button>
+        <button type="button" class="choice-btn" data-value="No" id="seasonNo">No</button>
+        <button type="button" class="choice-btn" data-value="Occasionally" id="seasonOcc">Occasionally</button>
+      </div>
+      <div class="field-error" id="err_season"></div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" id="lblBgb"><span class="tag tag-required">Required</span> BGB Availability</label>
+      <div class="choice-group" id="bgbGroup">
+        <button type="button" class="choice-btn" data-value="01 Server Time" id="bgb01Btn">01 Server Time</button>
+        <button type="button" class="choice-btn" data-value="10 Server Time" id="bgb10Btn">10 Server Time</button>
+        <button type="button" class="choice-btn" data-value="19 Server Time" id="bgb19Btn">19 Server Time</button>
+      </div>
+      <div class="field-error" id="err_bgb"></div>
+    </div>
+
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" id="toStep2Back">Back</button>
+      <button type="button" class="btn btn-primary" id="toReview">Next</button>
+    </div>
+  </section>
+
+  <!-- ===================== REVIEW ===================== -->
+  <section class="panel step-panel" id="panelReview" style="display:none;">
+    <h2 class="panel-title" id="reviewTitleEl">Review Your Registration</h2>
+
+    <div class="review-section">
+      <div class="review-section-title" id="reviewPlayerInfoTitle">Player Information</div>
+      <div id="reviewPlayerRows"></div>
+    </div>
+    <div class="review-section">
+      <div class="review-section-title" id="reviewApcInfoTitle">APC Information</div>
+      <div id="reviewApcRows"></div>
+    </div>
+    <div class="review-section">
+      <div class="review-section-title" id="reviewAvailabilityTitle">Availability</div>
+      <div id="reviewAvailRows"></div>
+    </div>
+
+    <div class="btn-row">
+      <button type="button" class="btn btn-secondary" id="reviewEdit">Edit</button>
+      <button type="button" class="btn btn-primary" id="submitBtn">Submit Registration</button>
+    </div>
+  </section>
+
+  <!-- ===================== SUCCESS ===================== -->
+  <section class="panel success-panel step-panel" id="panelSuccess" style="display:none;">
+    <div class="success-icon">✓</div>
+    <h2 class="panel-title" id="successTitleEl" style="border:none;">REGISTRATION SUCCESSFUL</h2>
+    <p id="successMessageEl">Your registration has been saved successfully.</p>
+
+    <div style="margin-top:20px;">
+      <div class="field-label" id="refLabel" style="justify-content:center;">Reference Number</div>
+      <div class="ref-number" id="refNumber">REF-288-000000</div>
+    </div>
+
+    <div>
+      <div class="field-label" id="updateLinkLabelEl" style="justify-content:center;">Your private update link</div>
+      <div class="update-link-box">
+        <input type="text" id="updateLinkInput" readonly />
+        <button type="button" class="btn btn-secondary" id="copyLinkBtn" style="white-space:nowrap;">Copy Link</button>
+      </div>
+      <span class="status-pill status-unlocked" id="statusPill">UNLOCKED</span>
+    </div>
+
+    <div class="warning-box" id="saveLinkWarningEl">
+      Please save your update link. You will need it if you want to modify your registration later.
+    </div>
+  </section>
+
+  <div class="footer-note">Server 288 Migration Registration — data is stored privately and used only for migration coordination.</div>
+</div>
+
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

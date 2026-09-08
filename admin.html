@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SERVER 288 — Admin Dashboard</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .admin-shell { max-width: 1100px; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); padding: 14px; border-radius: var(--radius); }
+  .stat-card .num { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--amber-bright); }
+  .stat-card .label { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .filter-row select, .filter-row input { background: var(--surface-2); border: 1px solid var(--border-bright); color: var(--text); padding: 8px 10px; border-radius: var(--radius); font-size: 13px; }
+  table.admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.admin-table th, table.admin-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: start; white-space: nowrap; }
+  table.admin-table th { color: var(--text-muted); font-weight: 600; position: sticky; top: 0; background: var(--surface); }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); }
+  .status-toggle { cursor: pointer; }
+  .login-box { max-width: 380px; margin: 60px auto; }
+  #gsiBtn { margin: 12px 0; }
+</style>
+</head>
+<body>
+<div class="app-shell admin-shell">
+  <div class="top-bar">
+    <div class="brand">
+      <span class="brand-mark">288</span>
+      <div>
+        <div class="brand-title">SERVER 288 — ADMIN</div>
+        <div class="brand-tagline">Migration registration dashboard</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <nav class="nav-links"><a href="index.html">New Registration</a></nav>
+      <select class="lang-select" id="langSelect" aria-label="Language"></select>
+    </div>
+  </div>
+
+  <div id="banner"></div>
+
+  <!-- LOGIN -->
+  <section class="panel login-box" id="loginPanel">
+    <h2 class="panel-title">Admin Sign-In</h2>
+    <p style="color:var(--text-muted); font-size:13.5px;">Sign in with your authorized Google account, then enter the admin password.</p>
+    <div id="gsiBtn"></div>
+    <div class="field">
+      <label class="field-label">Admin Password</label>
+      <input type="password" id="adminPassword" />
+    </div>
+    <button class="btn btn-primary" id="loginBtn" style="width:100%;" disabled>Sign In</button>
+    <p style="color:var(--text-faint); font-size:12px; margin-top:14px;">
+      Configure GOOGLE_CLIENT_ID in admin.js, and ADMIN_PASSWORD / ADMIN_EMAILS in Apps Script Script Properties.
+    </p>
+  </section>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" style="display:none;">
+    <div class="stat-grid" id="statGrid"></div>
+
+    <div class="filter-row">
+      <input type="text" id="searchBox" placeholder="Search name / migration ID / reference / alliance" style="min-width:260px;" />
+      <select id="filterServer"><option value="">Source server: all</option></select>
+      <select id="filterTarget"><option value="">Target alliance: all</option><option>DWSS</option><option>NMC</option><option>M4D</option><option>Not decided</option></select>
+      <select id="filterType"><option value="">Type: all</option><option>Individual</option><option>Group</option></select>
+      <select id="filterStatus"><option value="">Status: all</option><option>Unlocked</option><option>Locked</option><option>Cancelled</option></select>
+      <button class="btn btn-secondary" id="exportCsvBtn">Export CSV</button>
+      <a class="btn btn-secondary" id="openSheetBtn" href="#" target="_blank" style="text-decoration:none; display:inline-flex; align-items:center;">Open Sheet (Excel export)</a>
+      <button class="btn btn-secondary" id="refreshBtn">Refresh</button>
+    </div>
+
+    <div class="table-wrap panel" style="padding:0;">
+      <table class="admin-table" id="table">
+        <thead>
+          <tr>
+            <th>Reference</th><th>Status</th><th>Server</th><th>Alliance</th><th>Player</th>
+            <th>Migration ID</th><th>Score</th><th>Type</th><th>Target</th>
+            <th>APC1</th><th>APC2</th><th>APC3</th><th>APC4</th><th>Season</th><th>BGB</th><th>Updated</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer-note">Admin dashboard — Google account + password required. Data never leaves this private view.</div>
+</div>
+
+<script src="i18n.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="admin.js"></script>
+</body>
+</html>
